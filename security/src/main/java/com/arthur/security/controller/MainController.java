@@ -12,4 +12,14 @@ public class MainController {
     public String welcome() {
         return "<h1>Welcome!</h1>";
     }
+
+    @GetMapping("/user")
+    public String user() {
+        return "<h1>User!</h1>";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "<h1>Admin!</h1>";
+    }
 }
