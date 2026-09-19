@@ -1,0 +1,10 @@
+# Open Redirect - cheatsheet (reimplementado de PayloadsAllTheThings/PortSwigger)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# PAYLOAD (em next/url/returnUrl)     | POR QUE PASSA EM CHECK INGENUO        | MITIGACAO
+https://evil.example                  | destino absoluto sem validacao        | allowlist de host parseado
+//evil.example                        | protocolo-relativo (navegador=absoluto)| rejeitar '//' ; relativo so com 1 '/'
+/\evil.example                        | navegador normaliza '\' -> '/'         | normalizar '\'->'/' antes de checar
+https://trusted.com@evil.example      | userinfo: host real e evil            | comparar host de URI, nao string
+https://trusted.com.evil.example      | contem 'trusted.com' mas host e evil  | comparar host exato (allowlist)
+javascript:alert(1)  /  data:text/html| esquema perigoso                      | so http/https

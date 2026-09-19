@@ -1,0 +1,10 @@
+# Sensitive Data Exposure - notas (reimplementado de OWASP)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# ONDE VAZA                     | EXEMPLO                                  | MITIGACAO
+entidade serializada           | passwordHash/resetToken/ssn no JSON       | DTO por endpoint + @JsonIgnore
+erro verboso                   | stack trace + SQL + versao                | erro generico + id de correlacao
+campos excessivos              | internalNotes/creditScore no /users       | so os campos necessarios
+PII em log                     | email/cartao em claro                     | mascarar PII
+/actuator/env, /heapdump       | segredos/memoria                          | expor so /health; proteger o resto
+/.git/ , backups .bak/.zip     | codigo-fonte e segredos                   | nao publicar; bloquear no servidor

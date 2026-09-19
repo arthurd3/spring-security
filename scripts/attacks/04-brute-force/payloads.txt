@@ -1,0 +1,9 @@
+# Brute Force / Credential Stuffing - notas (reimplementado de OWASP)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# TECNICA               | COMO                                   | DEFESA
+Vertical               | 1 user, wordlist de senhas             | lockout por conta + backoff
+Password spraying      | 1 senha comum, muitos users, 1x cada   | limite global/IP + deteccao + MFA
+Credential stuffing    | pares user:senha vazados               | MFA + bloquear senhas vazadas (HIBP)
+Reverse brute force    | 1 senha, itera usuarios                | idem spraying
+Senhas comuns 2025     | Winter2025!, P@ssw0rd, 123456, admin   | politica de senha + HIBP + MFA

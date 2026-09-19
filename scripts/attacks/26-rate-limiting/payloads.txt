@@ -1,0 +1,10 @@
+# Rate Limiting - notas (reimplementado de OWASP API4 / pesquisa de bypass)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# TECNICA DE BYPASS/ERRO        | COMO                                   | MITIGACAO
+sem limite                     | forca bruta livre (OTP/login/cupom)    | contar por identidade + 429
+X-Forwarded-For rotacionado    | novo XFF por request zera o contador   | chavear no IP real/usuario, nao no header
+X-Real-IP / Client-IP spoof    | mesma ideia com outros headers          | so confiar em proxy conhecido
+janela fixa (burst na virada)  | 2x o limite ao redor do boundary       | janela deslizante / token bucket
+distribuir por muitos IPs      | botnet/proxies                          | limites globais + deteccao + CAPTCHA/MFA
+sem Retry-After                | cliente nao sabe quando tentar          | 429 + Retry-After

@@ -1,0 +1,10 @@
+# ReDoS - cheatsheet (reimplementado de OWASP / Cloudflare postmortem)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# REGEX (evil)          | INPUT que explode          | OBSERVACAO / MITIGACAO
+(.*a){20}               | 'aaaa...aX'                 | catastrofico ate no JDK 21; linear + length cap
+(.*@){12}               | '@@@@...@X'                 | 'regex de email' ruim; validar sem backtracking
+(a+)+$                  | 'aaaa...aX'                 | classico; otimizado no JDK21, EXPLODE em outros motores
+([a-zA-Z0-9]+)*@        | 'aaaa...!'                  | email evil; use RE2/linear
+(x+x+)+y                | 'xxxx...!'                  | quantificadores aninhados
+# Mitigacao geral: length cap + verificacao linear + timeout + motor RE2/RE2J

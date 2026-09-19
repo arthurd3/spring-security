@@ -1,0 +1,10 @@
+# Insecure Randomness - notas (reimplementado de OWASP)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# ANTIPADRAO                        | POR QUE E INSEGURO                     | MITIGACAO
+new Random(seed)                    | mesma semente -> mesma sequencia       | SecureRandom
+new Random(System.currentTimeMillis)| semente do tempo -> brute force janela | SecureRandom
+Math.random()                       | PRNG nao criptografico                 | SecureRandom
+UUID a partir de Random             | previsivel                             | UUID.randomUUID() (SecureRandom)
+token curto (4-6 digitos)           | espaco pequeno -> forca bruta          | >=128-256 bits
+semente vinda do cliente            | atacante controla a saida              | nunca aceitar semente

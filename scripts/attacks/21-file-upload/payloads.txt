@@ -1,0 +1,11 @@
+# Unrestricted File Upload - cheatsheet (reimplementado de OWASP / PayloadsAllTheThings)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# NOME/TRUQUE                 | POR QUE FUNCIONA                        | MITIGACAO
+shell.jsp / shell.php         | extensao executavel servida            | allowlist de extensao + storage sem exec
+shell.jsp.png                 | dupla extensao (server executa .jsp)   | so extensao FINAL da allowlist + rename
+shell.jsp%00.png              | null byte trunca (historico)           | rejeitar nulos; linguagem moderna
+shell.jsp.  / shell.JSP       | ponto final / case                     | normalizar + allowlist case-insensitive
+Content-Type: image/png (fake)| confia no header do cliente            | validar magic bytes/conteudo
+../../ROOT/shell.jsp          | path no nome do arquivo                | remover path + nome aleatorio
+polyglot (PNG+PHP)            | valido como imagem E script            | re-encode da imagem; storage sem exec

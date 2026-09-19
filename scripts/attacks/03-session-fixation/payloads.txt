@@ -1,0 +1,8 @@
+# Session Fixation - notas (reimplementado de OWASP Session Management)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# VETOR                                   | COMO                                   | MITIGACAO
+;jsessionid=FIXO na URL                    | forcar a vitima a usar um id conhecido | rotacionar no login; nao aceitar id do cliente
+cookie forcado (subdominio/XSS)            | plantar o id via Set-Cookie/JS         | HttpOnly/Secure/SameSite; rotacionar
+sem rotacao no login                       | id permanece apos autenticar           | changeSessionId()
+sem invalidacao no logout/timeout          | id continua valido apos sair           | invalidar sessao; timeout absoluto/inatividade

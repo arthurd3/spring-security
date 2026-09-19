@@ -1,0 +1,10 @@
+# Username Enumeration - notas (reimplementado de OWASP WSTG/Authentication)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# ORACULO                  | ONDE APARECE                          | MITIGACAO
+mensagem                   | login: 'no account' vs 'wrong pass'   | resposta identica
+status HTTP                | 404 vs 401                            | mesmo status
+tempo (timing)             | existente roda hash (lento)           | sempre rodar hash (dummy) -> tempo constante
+tamanho da resposta        | corpos diferentes                     | resposta identica
+cadastro                   | 'email ja registrado'                 | 'se valido, enviamos verificacao'
+reset de senha             | 'no such user' vs 'enviado'           | 'se existir, enviamos o link'

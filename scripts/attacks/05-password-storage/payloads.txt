@@ -1,0 +1,11 @@
+# Password Storage - notas (reimplementado de OWASP Password Storage Cheat Sheet)
+#
+# ESQUEMA            | PROBLEMA/PROPRIEDADE                         | VEREDICTO
+plaintext            | vazamento = senha entregue                   | NUNCA
+md5(pw) / sha1(pw)   | rapido; sem sal -> reuso + rainbow tables    | NUNCA p/ senha
+sha256(salt+pw)      | esconde reuso, mas rapido (GPU)              | fraco p/ senha
+pbkdf2               | lento, padrao FIPS                           | aceitavel (custo alto)
+bcrypt               | salgado, lento, custo ajustavel              | bom
+scrypt / argon2id    | resistente a GPU/ASIC (memoria)              | preferido
+pepper (fora do DB)  | segredo extra antes do hash                  | reforco
+upgrade-on-login     | re-hash com custo maior ao logar             | reforco

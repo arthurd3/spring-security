@@ -1,0 +1,10 @@
+# Mass Assignment - cheatsheet (reimplementado de OWASP)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# CAMPO EXTRA NO JSON        | EFEITO                         | MITIGACAO
+"role":"ADMIN"               | vira administrador             | DTO/record allowlist
+"admin":true                 | flag de privilegio            | DTO sem esse campo
+"balance":1000000            | adultera saldo/preco          | valor definido no servidor
+"verified":true              | pula verificacao              | allowlist
+"id":1                       | sobrescreve id/associacao     | nao aceitar id do body
+{"user":{"role":"ADMIN"}}    | injecao em objeto aninhado    | DTO aninhado restrito

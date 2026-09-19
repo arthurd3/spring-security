@@ -1,0 +1,11 @@
+# XSS - cheatsheet (reimplementado de OWASP XSS Prevention / PortSwigger)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# PAYLOAD                                   | CONTEXTO                | MITIGACAO
+<script>alert(1)</script>                   | corpo HTML              | htmlEscape (encoding HTML)
+"><svg onload=alert(1)>                      | quebra de tag/atributo | encoding HTML + aspas no atributo
+' onmouseover=alert(1) x='                   | atributo sem aspas      | sempre aspas + escape de atributo
+';alert(1);//                                | dentro de <script>      | encoding \uXXXX (JS)
+javascript:alert(1)                          | href/src                | validar esquema (so http/https)
+<img src=x onerror=alert(1)>                 | HTML                    | htmlEscape + CSP
+{{constructor.constructor('alert(1)')()}}    | template no cliente     | nao renderizar template do usuario

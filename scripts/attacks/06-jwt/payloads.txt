@@ -1,0 +1,10 @@
+# JWT - cheatsheet (reimplementado de PortSwigger JWT / OWASP)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# TECNICA                 | COMO                                            | MITIGACAO
+alg=none                  | header {"alg":"none"}, assinatura vazia          | fixar alg + exigir assinatura
+segredo fraco (HS256)     | brute force do segredo (jwt_tool/hashcat)        | segredo 256+ bits
+sem exp                   | remover/expandir exp; reusar token antigo        | validar exp/nbf/iss/aud
+confusao RS256->HS256     | assinar HS256 com a chave publica                | fixar RS256; nunca ler alg do header
+kid injection             | kid -> path/sql para escolher a chave            | validar kid contra conjunto confiavel
+jwk/jku injection         | embutir/forjar a chave no header                 | ignorar jwk/jku nao confiaveis

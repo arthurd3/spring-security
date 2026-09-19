@@ -1,0 +1,9 @@
+# Host Header Injection - cheatsheet (reimplementado de PortSwigger)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# HEADER ENVIADO                     | EFEITO                                 | MITIGACAO
+Host: evil.example                    | reset link aponta p/ atacante          | base URL configurada
+X-Forwarded-Host: evil.example        | override do host (atras de proxy)      | ignorar XFH nao confiavel
+Host: myapp.example, evil.example     | duplo/ambiguo Host                     | rejeitar Host malformado/duplicado
+Host absoluto em conteudo cacheavel   | web cache poisoning (afeta todos)      | nao refletir Host; chave de cache
+Host: internal-only                   | roteamento/tenant por Host spoofado    | allowlist de hosts conhecidos

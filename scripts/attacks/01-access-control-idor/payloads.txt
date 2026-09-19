@@ -1,0 +1,10 @@
+# IDOR / Broken Access Control - notas (reimplementado de OWASP)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# TECNICA                 | COMO                                        | MITIGACAO
+IDOR horizontal          | trocar id na URL: /conta/1 -> /conta/2      | checar dono do objeto
+IDOR vertical            | chamar rota/funcao de admin como user       | deny-by-default + papeis
+enumeracao               | varrer ids sequenciais 1..N                 | checar dono + id opaco + rate limit
+IDOR em body/JSON        | mudar "userId"/"accountId" no corpo         | derivar do token, nao do body
+IDOR aninhado            | /accounts/A/docs/D com D de outro account   | checar vinculo doc->account do caller
+IDOR via JWT/cookie      | alterar claim de id                         | assinar/validar; autorizacao no servidor

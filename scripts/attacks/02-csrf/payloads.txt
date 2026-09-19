@@ -1,0 +1,10 @@
+# CSRF - cheatsheet (reimplementado de OWASP CSRF Prevention)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# VETOR                              | COMO                                       | MITIGACAO
+GET muda estado                      | <img src=".../transfer?to=atacante">       | GET idempotente; token
+POST sem token                       | <form autosubmit> cross-site               | synchronizer token
+enctype=text/plain (simple request)  | envia JSON sem preflight CORS              | exigir token; checar content-type
+sem SameSite (None)                  | cookie vai cross-site                       | SameSite=Lax/Strict + Secure
+double-submit ausente                | header/campo nao casa com cookie           | comparar cookie==header
+login CSRF                           | logar a vitima na conta do atacante        | token no formulario de login

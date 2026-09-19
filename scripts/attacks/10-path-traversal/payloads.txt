@@ -1,0 +1,11 @@
+# Path Traversal - cheatsheet (reimplementado de OWASP/PortSwigger/Snyk)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# PAYLOAD (no parametro 'name')     | POR QUE FUNCIONA                       | MITIGACAO
+../../etc/passwd                     | sobe niveis e sai da base              | normalize + startsWith(base)
+..%2f..%2f..%2fetc%2fpasswd          | URL-encode do separador                | decodificar e entao checar contencao
+%252e%252e%252f                      | double-encode                          | decodificar por completo antes de checar
+....//....//                          | filtro que remove '../' uma vez        | normalizar, nao remover substring
+/etc/passwd                          | caminho absoluto (resolve ignora base) | rejeitar absolutos; checar contencao
+zip entry: ../../tmp/evil.sh         | Zip Slip na extracao                   | validar cada entrada (startsWith base)
+..\..\ (Windows)                     | separador de backslash                 | normalizar separadores

