@@ -46,3 +46,9 @@ segurança de forma portável.
 - OWASP XPath Injection: https://owasp.org/www-community/attacks/XPATH_Injection
 - OWASP WSTG XPath: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/09-Testing_for_XPath_Injection
 - CWE-643: https://cwe.mitre.org/data/definitions/643.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** XML/XPath; separar consulta de dados.
+- **Conecta com:** [#08 SQLi](../08-sql-injection/DEEP-DIVE.md) (mesma raiz), [#15 XXE](../15-xxe/DEEP-DIVE.md) (XML), família injeção.
+- **Conceitos rodáveis:** — (foco em `XPathVariableResolver`/variáveis vinculadas).
+- **Aprofundar:** OWASP XPath Injection · OWASP WSTG (XPath).

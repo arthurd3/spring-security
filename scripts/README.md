@@ -74,7 +74,7 @@ Se um exploit com biblioteca reclamar de classe faltando: `scripts/build-classpa
 | 01 | `01-access-control-idor` | IDOR / BOLA | horizontal, vertical, enumeração, aninhado |
 | 02 | `02-csrf` | CSRF | GET-state, POST sem token, simple-request, double-submit, SameSite, login-CSRF |
 | 03 | `03-session-fixation` | Session Fixation | sem rotação, aceitar id do cliente, sem invalidação |
-| 04 | `04-brute-force` | Brute Force | vertical, spraying, credential stuffing |
+| 04 | `04-brute-force` | Brute Force | vertical, spraying, credential stuffing, reverse, wordlist 2025 |
 | 05 | `05-password-storage` | Armazenamento de senha | plaintext, MD5/SHA sem sal, SHA+sal, BCrypt, pepper |
 | 06 | `06-jwt` | JWT | alg=none, segredo fraco, sem exp, confusão RS256→HS256 |
 | 07 | `07-xss-headers` | XSS + headers | refletido, armazenado, atributo, JS, CSP/nosniff |
@@ -101,14 +101,40 @@ Se um exploit com biblioteca reclamar de classe faltando: `scripts/build-classpa
 Cada demo espelha a defesa real da aplicação (o `.sh`/`DEEP-DIVE.md` aponta o arquivo equivalente em
 `src/main/...`). Os mesmos ataques têm **testes JUnit** (`./mvnw test`, 100 testes) contra a app real.
 
+## 🧠 Conceitos conectados (`scripts/concepts/`)
+
+Além dos ataques, mini-demos **rodáveis** dos conceitos do ecossistema — o "conhecimento que leva a outro
+conhecimento". Cada `DEEP-DIVE.md` de ataque tem uma seção **"9. Trilhas de aprendizado"** que aponta
+para estes e para os ataques irmãos.
+
+```bash
+scripts/run-concepts.sh                                   # roda todos os conceitos
+scripts/concepts/hibp-k-anonymity/hibp-k-anonymity.sh     # checar senha vazada sem expo-la (k-anonymity)
+```
+
+| Concept | Ensina (roda offline) | Liga a |
+|---------|-----------------------|--------|
+| `hibp-k-anonymity` | checar/bloquear senha vazada sem revelá-la (SHA-1 prefixo/sufixo) | #04, #05, #12 |
+| `totp-mfa` | 2FA/TOTP (RFC 6238) — por que MFA derruba stuffing/spraying | #04, #06 |
+| `password-entropy` | entropia + tempo de quebra (comprimento e hash lento) | #04, #05 |
+| `constant-time-compare` | timing side-channel vs `MessageDigest.isEqual` | #14, #06 |
+
+---
+
 ## Estrutura
 
 ```
 scripts/
-├── run-all.sh                 # roda os 26 em sequencia
+├── run-all.sh                 # roda os 26 ataques em sequencia
+├── run-concepts.sh            # roda os mini-demos de conceitos conectados
 ├── build-classpath.sh         # (re)gera o classpath para os exploits que usam libs reais
 ├── lib/
 │   ├── common.sh              # cores, layout, show_code, run_demo, level, doc_pointer
 │   └── classpath.txt          # classpath do projeto (gerado)
-└── attacks/<nn-nome>/         # 4 artefatos por ataque (.sh, *Demo.java, DEEP-DIVE.md, payloads.txt)
+├── concepts/<nome>/           # mini-demo rodavel + .sh + README (hibp, totp, entropy, timing)
+└── attacks/<nn-nome>/         # 4 artefatos por ataque:
+    ├── <nn-nome>.sh           #   explica (3 niveis), mostra o codigo, roda, aponta o deep-dive
+    ├── <Name>Demo.java        #   uma variante rodavel POR tecnica (vulneravel + seguro)
+    ├── DEEP-DIVE.md           #   teoria + casos reais + secao 9 "Trilhas de aprendizado"
+    └── payloads.txt           #   cheatsheet + conceitos conectados
 ```

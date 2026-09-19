@@ -48,3 +48,9 @@ massa**; UUID dificulta adivinhar, mas **não é autorização** — a checagem 
 - OWASP IDOR Prevention: https://cheatsheetseries.owasp.org/cheatsheets/Insecure_Direct_Object_Reference_Prevention_Cheat_Sheet.html
 - PortSwigger Access control: https://portswigger.net/web-security/access-control/idor
 - CWE-639: https://cwe.mitre.org/data/definitions/639.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** autenticação x autorização; como ids viajam em URL/body/JWT.
+- **Conecta com:** [#14 enumeração](../14-user-enumeration/DEEP-DIVE.md) (achar ids/usuários válidos), [#09 mass assignment](../09-mass-assignment/DEEP-DIVE.md) (autorização no nível de propriedade), [#26 rate limiting](../26-rate-limiting/DEEP-DIVE.md) (barrar varredura).
+- **Conceitos rodáveis:** `scripts/concepts/constant-time-compare` (comparar tokens de acesso com segurança).
+- **Aprofundar:** OWASP API1:2023 BOLA · OWASP ASVS V4 (Access Control) · MITRE ATT&CK T1190.

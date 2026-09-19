@@ -52,3 +52,9 @@ escolhido pelo atacante** a partir do dado. Defesas: **não desserializar dados 
 - OWASP Deserialization: https://cheatsheetseries.owasp.org/cheatsheets/Deserialization_Cheat_Sheet.html
 - OWASP - Deserialization of untrusted data: https://owasp.org/www-community/vulnerabilities/Deserialization_of_untrusted_data
 - CWE-502: https://cwe.mitre.org/data/definitions/502.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** serialização Java/JSON; classpath e reflexão.
+- **Conecta com:** [#06 jwt](../06-jwt/DEEP-DIVE.md) (parsear tokens), [#15 XXE](../15-xxe/DEEP-DIVE.md) (parsear dado não confiável), [#17](../17-command-injection/DEEP-DIVE.md)/[#18](../18-spel-injection/DEEP-DIVE.md) (RCE).
+- **Conceitos rodáveis:** — (foco em `ObjectInputFilter`/JSON tipo fixo).
+- **Aprofundar:** OWASP Deserialization Cheat Sheet · ysoserial · Log4Shell (CVE-2021-44228).

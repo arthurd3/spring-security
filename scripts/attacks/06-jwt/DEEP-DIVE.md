@@ -47,3 +47,9 @@ HMAC. Defesa: **fixar o algoritmo esperado**, **verificar assinatura e `exp`**, 
 - PortSwigger JWT: https://portswigger.net/web-security/jwt
 - OWASP JWT Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/JSON_Web_Token_for_Java_Cheat_Sheet.html
 - CWE-347: https://cwe.mitre.org/data/definitions/347.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** HMAC/assinatura, base64url, chaves simétricas x assimétricas.
+- **Conecta com:** [#24 aleatoriedade](../24-insecure-randomness/DEEP-DIVE.md) (segredo/chave forte), [#19 deserialização](../19-insecure-deserialization/DEEP-DIVE.md) (parsers de token), [#16 SSRF](../16-ssrf/DEEP-DIVE.md) (`jwks_uri`/`jku`).
+- **Conceitos rodáveis:** `scripts/concepts/totp-mfa` (mesmo HMAC), `scripts/concepts/constant-time-compare` (comparar assinatura).
+- **Aprofundar:** PortSwigger JWT · RFC 7519 (JWT)/7515 (JWS) · OWASP JWT Cheat Sheet.

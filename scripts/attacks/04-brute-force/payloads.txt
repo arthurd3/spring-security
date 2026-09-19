@@ -1,9 +1,14 @@
 # Brute Force / Credential Stuffing - notas (reimplementado de OWASP)
-# USO SOMENTE em sistemas proprios/autorizados.
+# USO SOMENTE em sistemas proprios/autorizados. Ferramentas de estudo: hydra, medusa, hashcat.
 #
 # TECNICA               | COMO                                   | DEFESA
 Vertical               | 1 user, wordlist de senhas             | lockout por conta + backoff
 Password spraying      | 1 senha comum, muitos users, 1x cada   | limite global/IP + deteccao + MFA
 Credential stuffing    | pares user:senha vazados               | MFA + bloquear senhas vazadas (HIBP)
-Reverse brute force    | 1 senha, itera usuarios                | idem spraying
-Senhas comuns 2025     | Winter2025!, P@ssw0rd, 123456, admin   | politica de senha + HIBP + MFA
+Reverse brute force    | 1 senha fixa, itera usuarios           | idem spraying (limite global/IP + MFA)
+Senhas comuns 2025     | 123456, Winter2025!, P@ssw0rd, admin, Password1! | politica de senha + HIBP + MFA
+#
+# Conhecimentos conectados (rodaveis):
+#   scripts/concepts/hibp-k-anonymity   - checar/bloquear senhas vazadas sem expo-las
+#   scripts/concepts/totp-mfa           - segundo fator (RFC 6238) que derruba stuffing/spraying
+#   scripts/concepts/password-entropy   - por que comprimento + hash lento encarecem o ataque

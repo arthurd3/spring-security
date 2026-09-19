@@ -45,3 +45,9 @@ servidor; `HttpOnly`/`Secure`/`SameSite`), e **invalidar** a sessão no logout e
 - OWASP Session fixation: https://owasp.org/www-community/attacks/Session_fixation
 - OWASP Session Management: https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html
 - CWE-384: https://cwe.mitre.org/data/definitions/384.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** cookies/sessão; por que o id de sessão precisa ser imprevisível.
+- **Conecta com:** [#02 CSRF](../02-csrf/DEEP-DIVE.md), [#07 XSS](../07-xss-headers/DEEP-DIVE.md) (roubar/fixar sessão via JS), [#24 aleatoriedade](../24-insecure-randomness/DEEP-DIVE.md) (id de sessão previsível).
+- **Conceitos rodáveis:** `scripts/concepts/constant-time-compare` (comparar id/token de sessão).
+- **Aprofundar:** OWASP Session Management Cheat Sheet · OWASP ASVS V3 (Session).

@@ -50,3 +50,9 @@ uma **lista de argumentos** (`ProcessBuilder("ping","-c","1",host)`), assim nenh
 - OWASP OS Command Injection Defense: https://cheatsheetseries.owasp.org/cheatsheets/OS_Command_Injection_Defense_Cheat_Sheet.html
 - PortSwigger — OS command injection: https://portswigger.net/web-security/os-command-injection
 - CWE-78: https://cwe.mitre.org/data/definitions/78.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** shell e metacaracteres; `ProcessBuilder` vs `sh -c`.
+- **Conecta com:** [#08 SQLi](../08-sql-injection/DEEP-DIVE.md), [#18 SpEL](../18-spel-injection/DEEP-DIVE.md), [#25 XPath](../25-xpath-injection/DEEP-DIVE.md) (família injeção), [#19 deserialização](../19-insecure-deserialization/DEEP-DIVE.md) (RCE).
+- **Conceitos rodáveis:** — (foco em lista de argumentos + allowlist).
+- **Aprofundar:** OWASP OS Command Injection Defense · PortSwigger · MITRE ATT&CK T1059.

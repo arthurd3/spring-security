@@ -46,3 +46,9 @@ permite conferir. E esse hash precisa ser **lento** de propósito, para encarece
 - OWASP Password Storage: https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html
 - Spring password storage: https://docs.spring.io/spring-security/reference/features/authentication/password-storage.html
 - CWE-916: https://cwe.mitre.org/data/definitions/916.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** funções de hash; sal; por que "rápido" é ruim para senha.
+- **Conecta com:** [#04 brute force](../04-brute-force/DEEP-DIVE.md) (o hash lento encarece a quebra), [#12 data exposure](../12-data-exposure/DEEP-DIVE.md) (vazamento de hashes), [#24 aleatoriedade](../24-insecure-randomness/DEEP-DIVE.md) (sal/pepper).
+- **Conceitos rodáveis:** `scripts/concepts/password-entropy`, `scripts/concepts/hibp-k-anonymity`, `scripts/concepts/totp-mfa`, `scripts/concepts/constant-time-compare`.
+- **Aprofundar:** OWASP Password Storage Cheat Sheet · NIST SP 800-63B · Spring `DelegatingPasswordEncoder`.

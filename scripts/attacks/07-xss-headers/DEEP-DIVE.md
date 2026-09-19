@@ -50,3 +50,9 @@ dentro de `<script>` é preciso **encoding `\uXXXX`**. Tipos de XSS: **refletido
 - OWASP XSS Prevention: https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html
 - PortSwigger XSS: https://portswigger.net/web-security/cross-site-scripting
 - CWE-79: https://cwe.mitre.org/data/definitions/79.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** contextos HTML/atributo/JS/URL; DOM; codificação de saída.
+- **Conecta com:** [#02 CSRF](../02-csrf/DEEP-DIVE.md) (XSS derrota CSRF), [#23 CRLF/log](../23-crlf-log-injection/DEEP-DIVE.md) e [#08 SQLi](../08-sql-injection/DEEP-DIVE.md) (família injeção), [#21 file upload](../21-file-upload/DEEP-DIVE.md) (HTML armazenado).
+- **Conceitos rodáveis:** — (foco em codificação por contexto e CSP).
+- **Aprofundar:** OWASP XSS Prevention · MDN Content-Security-Policy · PortSwigger XSS.

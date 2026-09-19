@@ -51,3 +51,9 @@ A defesa mais eficaz é **proibir DOCTYPE** (`disallow-doctype-decl`).
 - OWASP XXE Prevention Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/XML_External_Entity_Prevention_Cheat_Sheet.html
 - PortSwigger — XXE: https://portswigger.net/web-security/xxe
 - CWE-611: https://cwe.mitre.org/data/definitions/611.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** XML, DTD/entidades, parsers.
+- **Conecta com:** [#16 SSRF](../16-ssrf/DEEP-DIVE.md) (XXE→SSRF), [#10 path traversal](../10-path-traversal/DEEP-DIVE.md) (leitura de arquivo), [#19 deserialização](../19-insecure-deserialization/DEEP-DIVE.md) (parsear dado não confiável).
+- **Conceitos rodáveis:** — (foco em `disallow-doctype-decl`).
+- **Aprofundar:** OWASP XXE Prevention · PortSwigger XXE.

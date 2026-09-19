@@ -49,3 +49,9 @@ nova é um risco novo.
 - OWASP Mass Assignment: https://cheatsheetseries.owasp.org/cheatsheets/Mass_Assignment_Cheat_Sheet.html
 - OWASP API6:2023: https://owasp.org/API-Security/editions/2023/en/0xa3-broken-object-property-level-authorization/
 - CWE-915: https://cwe.mitre.org/data/definitions/915.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** data binding, JSON, DTOs.
+- **Conecta com:** [#01 IDOR](../01-access-control-idor/DEEP-DIVE.md) (autorização no nível de propriedade), [#18 SpEL](../18-spel-injection/DEEP-DIVE.md) (Spring4Shell = abuso de data binding), [#12 data exposure](../12-data-exposure/DEEP-DIVE.md).
+- **Conceitos rodáveis:** — (foco em allowlist/DTO).
+- **Aprofundar:** OWASP Mass Assignment Cheat Sheet · OWASP API6:2023.

@@ -54,3 +54,9 @@ classe de falha: SSTI.
 - PortSwigger — SSTI: https://portswigger.net/web-security/server-side-template-injection
 - Spring Expression: https://docs.spring.io/spring-framework/reference/core/expressions.html
 - CWE-917: https://cwe.mitre.org/data/definitions/917.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** avaliação de expressões/templates; reflexão em Java.
+- **Conecta com:** [#17 command injection](../17-command-injection/DEEP-DIVE.md) e [#08 SQLi](../08-sql-injection/DEEP-DIVE.md) (injeção), [#09 mass assignment](../09-mass-assignment/DEEP-DIVE.md) (Spring4Shell/data binding), [#19 deserialização](../19-insecure-deserialization/DEEP-DIVE.md).
+- **Conceitos rodáveis:** — (foco em não avaliar input / `SimpleEvaluationContext`).
+- **Aprofundar:** PortSwigger SSTI · Spring4Shell (CVE-2022-22965) · docs SpEL.

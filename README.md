@@ -270,6 +270,14 @@ scripts/run-all.sh                                            # all 26 in sequen
 java scripts/attacks/06-jwt/JwtDemo.java                       # just the code (alg=none, weak secret, alg confusion)
 ```
 
+Plus **runnable "connected knowledge" demos** under `scripts/concepts/` (HIBP k-anonymity, TOTP/MFA per
+RFC 6238, password entropy, constant-time comparison) — each `DEEP-DIVE.md` ends with a **"Trilhas de
+aprendizado"** section linking prerequisites, sibling attacks and these concept demos:
+
+```bash
+scripts/run-concepts.sh                                       # the cross-cutting concepts
+```
+
 Real patterns are **reimplemented and cited**, never weaponized (no third-party RCE / live gadget
 chains). Most demos are pure JDK; a few use the project's libs via `scripts/lib/classpath.txt`. See
 **[scripts/README.md](scripts/README.md)**.

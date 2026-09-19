@@ -47,3 +47,9 @@ neutralizar** CR/LF e demais controles antes de usar o valor; e usar **logging e
 - OWASP Log Injection: https://owasp.org/www-community/attacks/Log_Injection
 - OWASP Logging Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
 - CWE-117: https://cwe.mitre.org/data/definitions/117.html · CWE-113: https://cwe.mitre.org/data/definitions/113.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** estrutura de linhas HTTP/log (CR/LF), logging.
+- **Conecta com:** [#07 XSS](../07-xss-headers/DEEP-DIVE.md) (logs vistos em web), [#19 deserialização](../19-insecure-deserialization/DEEP-DIVE.md) (Log4Shell: logar input), família injeção.
+- **Conceitos rodáveis:** — (foco em sanitizar CR/LF + logging estruturado).
+- **Aprofundar:** OWASP Log Injection · OWASP Logging Cheat Sheet.

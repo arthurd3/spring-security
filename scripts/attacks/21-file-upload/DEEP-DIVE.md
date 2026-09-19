@@ -49,3 +49,9 @@ no servidor, **limite de tamanho**, e armazenar **fora do webroot** (ou sem exec
 - OWASP File Upload: https://cheatsheetseries.owasp.org/cheatsheets/File_Upload_Cheat_Sheet.html
 - OWASP Unrestricted File Upload: https://owasp.org/www-community/vulnerabilities/Unrestricted_File_Upload
 - CWE-434: https://cwe.mitre.org/data/definitions/434.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** multipart/MIME, extensões vs conteúdo (magic bytes).
+- **Conecta com:** [#10 path traversal](../10-path-traversal/DEEP-DIVE.md) (nome do arquivo), [#07 XSS](../07-xss-headers/DEEP-DIVE.md) (HTML servido), [#17 command injection](../17-command-injection/DEEP-DIVE.md) (webshell→RCE).
+- **Conceitos rodáveis:** — (foco em allowlist + magic bytes + nome aleatório).
+- **Aprofundar:** OWASP File Upload Cheat Sheet · PayloadsAllTheThings (Upload).

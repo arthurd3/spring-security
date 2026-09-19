@@ -48,3 +48,9 @@ bruta numa janela** de segundos até casar um token observado — e então **pre
 - OWASP Insecure Randomness: https://owasp.org/www-community/vulnerabilities/Insecure_Randomness
 - OWASP Cryptographic Storage: https://cheatsheetseries.owasp.org/cheatsheets/Cryptographic_Storage_Cheat_Sheet.html
 - CWE-330: https://cwe.mitre.org/data/definitions/330.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** PRNG vs CSPRNG, entropia, semente.
+- **Conecta com:** [#06 jwt](../06-jwt/DEEP-DIVE.md) (chaves/segredos), [#03 session fixation](../03-session-fixation/DEEP-DIVE.md) (id de sessão imprevisível), [#05 password storage](../05-password-storage/DEEP-DIVE.md) (sal).
+- **Conceitos rodáveis:** `scripts/concepts/totp-mfa` (precisa de RNG bom) e `scripts/concepts/password-entropy`.
+- **Aprofundar:** NIST SP 800-90A/800-63B · OWASP Insecure Randomness · `SecureRandom`.

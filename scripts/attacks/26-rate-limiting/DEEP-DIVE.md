@@ -49,3 +49,9 @@ permite um **burst na virada** (MAX no fim de uma janela + MAX no início da pr�
 - OWASP API4:2023: https://owasp.org/API-Security/editions/2023/en/0xa4-unrestricted-resource-consumption/
 - OWASP DoS Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Denial_of_Service_Cheat_Sheet.html
 - CWE-770: https://cwe.mitre.org/data/definitions/770.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** identidade de cliente (IP real vs headers), janelas de tempo.
+- **Conecta com:** [#04 brute force](../04-brute-force/DEEP-DIVE.md), [#14 enumeração](../14-user-enumeration/DEEP-DIVE.md), [#20 ReDoS](../20-redos/DEEP-DIVE.md) (família DoS).
+- **Conceitos rodáveis:** `scripts/concepts/totp-mfa` (MFA complementa o limite em endpoints críticos).
+- **Aprofundar:** OWASP API4:2023 · OWASP DoS Cheat Sheet · bucket4j/resilience4j.

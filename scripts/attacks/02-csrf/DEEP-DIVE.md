@@ -52,3 +52,9 @@ e o **login** também precisa de token (login CSRF). APIs com token no header `A
 - OWASP CSRF Prevention: https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html
 - Spring Security CSRF: https://docs.spring.io/spring-security/reference/servlet/exploits/csrf.html
 - CWE-352: https://cwe.mitre.org/data/definitions/352.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** cookies, sessão, same-origin policy.
+- **Conecta com:** [#03 session fixation](../03-session-fixation/DEEP-DIVE.md) (ciclo de vida da sessão), [#07 XSS](../07-xss-headers/DEEP-DIVE.md) (XSS derrota qualquer defesa de CSRF), [#13 CORS](../13-cors/DEEP-DIVE.md) (leitura cross-origin).
+- **Conceitos rodáveis:** `scripts/concepts/totp-mfa` (reautenticação/step-up em ações sensíveis).
+- **Aprofundar:** OWASP CSRF Prevention · MDN SameSite · PortSwigger CSRF.

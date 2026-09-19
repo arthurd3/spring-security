@@ -47,3 +47,9 @@ aceitar **caminho relativo** (uma única `/`, nunca `//`) OU uma URL cujo **host
 - OWASP Unvalidated Redirects: https://cheatsheetseries.owasp.org/cheatsheets/Unvalidated_Redirects_and_Forwards_Cheat_Sheet.html
 - PortSwigger (SSRF/redirect filters): https://portswigger.net/web-security/ssrf
 - CWE-601: https://cwe.mitre.org/data/definitions/601.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** estrutura de URL (esquema/host/userinfo), redirecionamento HTTP.
+- **Conecta com:** [#16 SSRF](../16-ssrf/DEEP-DIVE.md) (parsing/allowlist de host), [#22 host header](../22-host-header-injection/DEEP-DIVE.md), [#06 jwt](../06-jwt/DEEP-DIVE.md) (`redirect_uri` no OAuth).
+- **Conceitos rodáveis:** — (foco em allowlist de host parseado).
+- **Aprofundar:** OWASP Unvalidated Redirects · PortSwigger (filtros de URL/SSRF).

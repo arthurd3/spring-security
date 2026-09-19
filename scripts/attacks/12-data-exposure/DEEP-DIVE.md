@@ -50,3 +50,9 @@ PII** e **restringir** superfícies operacionais.
 - OWASP A02:2021: https://owasp.org/Top10/A02_2021-Cryptographic_Failures/
 - OWASP Error Handling: https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html
 - CWE-200: https://cwe.mitre.org/data/definitions/200.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** serialização/DTO; tratamento de erros; classificação de dados.
+- **Conecta com:** [#05 password storage](../05-password-storage/DEEP-DIVE.md) (hashes vazados), [#01 IDOR](../01-access-control-idor/DEEP-DIVE.md), [#23 CRLF/log](../23-crlf-log-injection/DEEP-DIVE.md) (PII em log).
+- **Conceitos rodáveis:** `scripts/concepts/hibp-k-anonymity` (o que fazer com credenciais vazadas).
+- **Aprofundar:** OWASP A02:2021 · OWASP Error Handling · OWASP API3.

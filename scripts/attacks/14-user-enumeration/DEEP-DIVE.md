@@ -46,3 +46,9 @@ uniformes** e **tempo constante** (rodar o hash mesmo para usuário inexistente,
 - OWASP WSTG Account Enumeration (link acima)
 - OWASP Authentication Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
 - CWE-204: https://cwe.mitre.org/data/definitions/204.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** respostas HTTP (status/corpo/tamanho) e noção de timing.
+- **Conecta com:** [#04 brute force](../04-brute-force/DEEP-DIVE.md) (usuários válidos turbinam spraying), [#26 rate limiting](../26-rate-limiting/DEEP-DIVE.md), [#06 jwt](../06-jwt/DEEP-DIVE.md) (timing na verificação).
+- **Conceitos rodáveis:** `scripts/concepts/constant-time-compare` (fechar o canal de timing).
+- **Aprofundar:** OWASP WSTG (Account Enumeration) · OWASP Authentication Cheat Sheet.

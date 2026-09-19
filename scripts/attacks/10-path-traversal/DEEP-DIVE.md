@@ -49,3 +49,9 @@ escreve fora do diretório na extração). Correção: **normalizar** e então *
 - OWASP Path Traversal: https://owasp.org/www-community/attacks/Path_Traversal
 - PortSwigger: https://portswigger.net/web-security/file-path-traversal
 - CWE-22: https://cwe.mitre.org/data/definitions/22.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** caminhos de arquivo, normalização, encoding de URL.
+- **Conecta com:** [#16 SSRF](../16-ssrf/DEEP-DIVE.md) (`file://`), [#21 file upload](../21-file-upload/DEEP-DIVE.md) (onde os arquivos vão parar), [#15 XXE](../15-xxe/DEEP-DIVE.md) (leitura de arquivo).
+- **Conceitos rodáveis:** — (foco em normalize + contenção).
+- **Aprofundar:** OWASP Path Traversal · Snyk Zip Slip · PortSwigger file path traversal.

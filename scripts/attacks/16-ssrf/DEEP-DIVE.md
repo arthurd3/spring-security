@@ -51,3 +51,9 @@ permitido responde `302` para o interno). Defesa (todas juntas): **allowlist de 
 - OWASP SSRF Prevention: https://cheatsheetseries.owasp.org/cheatsheets/Server_Side_Request_Forgery_Prevention_Cheat_Sheet.html
 - PortSwigger SSRF: https://portswigger.net/web-security/ssrf
 - CWE-918: https://cwe.mitre.org/data/definitions/918.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** HTTP, DNS, URLs, redes internas/IMDS.
+- **Conecta com:** [#15 XXE](../15-xxe/DEEP-DIVE.md) (XXE→SSRF), [#11 open redirect](../11-open-redirect/DEEP-DIVE.md) (bypass por redirect), [#10 path traversal](../10-path-traversal/DEEP-DIVE.md) (`file://`).
+- **Conceitos rodáveis:** — (foco em allowlist + checagem do IP resolvido).
+- **Aprofundar:** OWASP SSRF Prevention · PortSwigger SSRF · Capital One (IMDSv2).

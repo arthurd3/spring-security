@@ -48,3 +48,9 @@ sensível, e **validar** o `Host` contra uma allowlist de domínios conhecidos.
 - PortSwigger Host header: https://portswigger.net/web-security/host-header
 - OWASP WSTG Host Header Injection: https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/07-Input_Validation_Testing/17-Testing_for_Host_Header_Injection
 - CWE-644: https://cwe.mitre.org/data/definitions/644.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** headers HTTP, proxies (`X-Forwarded-*`), cache.
+- **Conecta com:** [#11 open redirect](../11-open-redirect/DEEP-DIVE.md), [#16 SSRF](../16-ssrf/DEEP-DIVE.md), [#12 data exposure](../12-data-exposure/DEEP-DIVE.md) (cache poisoning).
+- **Conceitos rodáveis:** — (foco em base URL configurada + allowlist de hosts).
+- **Aprofundar:** PortSwigger Host header · OWASP WSTG (Host Header Injection).

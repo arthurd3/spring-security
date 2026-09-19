@@ -50,3 +50,9 @@ Correção: **limitar o tamanho** da entrada, usar verificação **linear** (ou 
 - OWASP ReDoS: https://owasp.org/www-community/attacks/Regular_expression_Denial_of_Service_-_ReDoS
 - Cloudflare 2019: https://blog.cloudflare.com/details-of-the-cloudflare-outage-on-july-2-2019/
 - CWE-1333: https://cwe.mitre.org/data/definitions/1333.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** regex e backtracking; complexidade.
+- **Conecta com:** [#26 rate limiting](../26-rate-limiting/DEEP-DIVE.md) (família DoS/consumo de recursos), validação de entrada em geral.
+- **Conceitos rodáveis:** — (foco em length cap + verificação linear/RE2 + timeout).
+- **Aprofundar:** OWASP ReDoS · Cloudflare 2019 postmortem · google/re2j.

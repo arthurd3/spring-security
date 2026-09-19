@@ -49,3 +49,9 @@ não é autorização** — ele controla leitura no navegador; a autorização r
 - PortSwigger CORS: https://portswigger.net/web-security/cors
 - MDN CORS: https://developer.mozilla.org/docs/Web/HTTP/CORS
 - CWE-942: https://cwe.mitre.org/data/definitions/942.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** same-origin policy, preflight, headers CORS.
+- **Conecta com:** [#02 CSRF](../02-csrf/DEEP-DIVE.md) (CORS ≠ CSRF ≠ autorização), [#16 SSRF](../16-ssrf/DEEP-DIVE.md), [#07 XSS](../07-xss-headers/DEEP-DIVE.md).
+- **Conceitos rodáveis:** — (foco em allowlist exata de origem).
+- **Aprofundar:** PortSwigger CORS · MDN CORS · OWASP HTML5 Security.

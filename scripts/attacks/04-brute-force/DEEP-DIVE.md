@@ -48,3 +48,18 @@ Três formatos distintos, com defesas distintas:
 - OWASP Blocking Brute Force: https://owasp.org/www-community/controls/Blocking_Brute_Force_Attacks
 - OWASP Credential Stuffing Prevention: https://cheatsheetseries.owasp.org/cheatsheets/Credential_Stuffing_Prevention_Cheat_Sheet.html
 - CWE-307: https://cwe.mitre.org/data/definitions/307.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+
+- **Pré-requisitos:** como funciona o login/sessão HTTP; noções de **hashing de senha** (veja o ataque
+  **[#05 password storage](../05-password-storage/DEEP-DIVE.md)**) — a lentidão do hash é o que encarece a força bruta.
+- **Este ataque se conecta com:**
+  - **[#26 rate limiting](../26-rate-limiting/DEEP-DIVE.md)** — o limite global/por-IP é o que barra spraying/reverse (lockout por conta não pega).
+  - **[#14 enumeração de usuários](../14-user-enumeration/DEEP-DIVE.md)** — descobrir usuários válidos torna o spraying muito mais eficiente.
+  - **[#06 jwt](../06-jwt/DEEP-DIVE.md)** e **[#05 password storage](../05-password-storage/DEEP-DIVE.md)** — o que o atacante ganha se a senha cai.
+- **Conceitos rodáveis relacionados (pratique a seguir):**
+  - `scripts/concepts/hibp-k-anonymity` — bloquear senhas vazadas sem expô-las (mata credential stuffing).
+  - `scripts/concepts/totp-mfa` — MFA/TOTP (RFC 6238): a senha correta sozinha deixa de bastar.
+  - `scripts/concepts/password-entropy` — por que comprimento + hash lento tornam a quebra inviável.
+- **Aprofundar:** NIST SP 800-63B (senhas/MFA) https://pages.nist.gov/800-63-3/sp800-63b.html ·
+  OWASP Credential Stuffing Prevention · MITRE ATT&CK T1110 (Brute Force) https://attack.mitre.org/techniques/T1110/

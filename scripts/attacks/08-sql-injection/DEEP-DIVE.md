@@ -70,3 +70,9 @@ por banco e por contexto: string, número, identificador, LIKE, ORDER BY...).
 - OWASP Injection: https://owasp.org/www-community/attacks/SQL_Injection
 - PortSwigger Web Security Academy — SQL injection: https://portswigger.net/web-security/sql-injection
 - CWE-89: https://cwe.mitre.org/data/definitions/89.html
+
+## 9. Trilhas de aprendizado (conhecimentos que levam a outros)
+- **Pré-requisitos:** SQL básico; diferença entre estrutura da query e dados.
+- **Conecta com:** [#25 XPath](../25-xpath-injection/DEEP-DIVE.md), [#17 command injection](../17-command-injection/DEEP-DIVE.md), [#18 SpEL](../18-spel-injection/DEEP-DIVE.md) (mesma raiz: dado virando código), [#12 data exposure](../12-data-exposure/DEEP-DIVE.md).
+- **Conceitos rodáveis:** — (foco em prepared statements/allowlist).
+- **Aprofundar:** OWASP SQL Injection Prevention · PortSwigger SQLi · Bobby Tables.
