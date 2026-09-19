@@ -1,6 +1,7 @@
 package com.arthur.security.attacks.jwt;
 
 import com.arthur.security.attacks.AbstractSecurityIntegrationTest;
+import com.arthur.security.attacks.report.SecurityReport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,8 @@ class JwtDefenseTest extends AbstractSecurityIntegrationTest {
 
         mvc.perform(get("/api/v1/user").header("Authorization", "Bearer " + token))
                 .andExpect(status().isOk());
+
+        SecurityReport.defended("JWT", "token valido e nao expirado (uso legitimo)", "200 - assinatura e validade conferem");
     }
 
     @Test
@@ -53,6 +56,8 @@ class JwtDefenseTest extends AbstractSecurityIntegrationTest {
 
         mvc.perform(get("/api/v1/user").header("Authorization", "Bearer " + token))
                 .andExpect(status().isUnauthorized());
+
+        SecurityReport.defended("JWT", "token forjado com alg=none", "401 - resource server exige assinatura");
     }
 
     @Test
@@ -64,6 +69,8 @@ class JwtDefenseTest extends AbstractSecurityIntegrationTest {
 
         mvc.perform(get("/api/v1/user").header("Authorization", "Bearer " + token))
                 .andExpect(status().isUnauthorized());
+
+        SecurityReport.defended("JWT", "token assinado com a chave errada", "401 - assinatura nao confere");
     }
 
     @Test
@@ -74,5 +81,7 @@ class JwtDefenseTest extends AbstractSecurityIntegrationTest {
 
         mvc.perform(get("/api/v1/user").header("Authorization", "Bearer " + token))
                 .andExpect(status().isUnauthorized());
+
+        SecurityReport.defended("JWT", "token expirado", "401 - exp verificado");
     }
 }

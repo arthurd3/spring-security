@@ -1,6 +1,7 @@
 package com.arthur.security.attacks.sessionfixation;
 
 import com.arthur.security.attacks.AbstractSecurityIntegrationTest;
+import com.arthur.security.attacks.report.SecurityReport;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,5 +36,7 @@ class SessionFixationDefenseTest extends AbstractSecurityIntegrationTest {
         HttpSession after = result.getRequest().getSession(false);
         assertNotNull(after);
         assertNotEquals(before, after.getId());
+
+        SecurityReport.defended("Session Fixation", "login real via POST /login", "id de sessao trocado apos autenticar");
     }
 }

@@ -1,5 +1,6 @@
 package com.arthur.security.attacks.bruteforce;
 
+import com.arthur.security.attacks.report.SecurityReport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -27,6 +28,8 @@ class PasswordStorageTest {
 
         assertEquals("hunter2", storedForAlice);           // one DB leak burns every credential
         assertEquals(storedForAlice, storedForBob);        // identical => password reuse is visible
+
+        SecurityReport.vulnerable("Armazenamento de Senha", "senha em texto puro no banco", "vazamento expoe a senha e revela reuso entre contas");
     }
 
     @Test
@@ -41,5 +44,7 @@ class PasswordStorageTest {
 
         // Same password, two encodings => different hashes (per-hash salt), so reuse is not detectable.
         assertNotEquals(encoder.encode("hunter2"), encoder.encode("hunter2"));
+
+        SecurityReport.defended("Armazenamento de Senha", "{bcrypt} via DelegatingPasswordEncoder", "hash com salt unico, irreversivel e ainda verificavel");
     }
 }

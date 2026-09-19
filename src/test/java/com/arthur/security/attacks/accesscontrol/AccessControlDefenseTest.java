@@ -1,5 +1,6 @@
 package com.arthur.security.attacks.accesscontrol;
 
+import com.arthur.security.attacks.report.SecurityReport;
 import com.arthur.security.account.Account;
 import com.arthur.security.account.AccountRepository;
 import com.arthur.security.attacks.AbstractSecurityIntegrationTest;
@@ -33,6 +34,8 @@ class AccessControlDefenseTest extends AbstractSecurityIntegrationTest {
     void ownerCanReadOwnAccount() throws Exception {
         mvc.perform(get("/api/accounts/" + accountIdOf("arthur")).with(httpBasic("arthur", "password")))
                 .andExpect(status().isOk());
+
+        SecurityReport.defended("Access Control", "arthur lendo a propria conta (uso legitimo)", "200 - dono continua com acesso");
     }
 
     @Test
@@ -40,6 +43,8 @@ class AccessControlDefenseTest extends AbstractSecurityIntegrationTest {
     void otherUsersAccountIsForbidden() throws Exception {
         mvc.perform(get("/api/accounts/" + accountIdOf("admin")).with(httpBasic("arthur", "password")))
                 .andExpect(status().isForbidden());
+
+        SecurityReport.defended("Access Control", "arthur lendo a conta de admin (IDOR)", "403 - @PostAuthorize confere o dono");
     }
 
     @Test
@@ -47,6 +52,8 @@ class AccessControlDefenseTest extends AbstractSecurityIntegrationTest {
     void adminCanReadAnyAccount() throws Exception {
         mvc.perform(get("/api/accounts/" + accountIdOf("arthur")).with(httpBasic("admin", "password")))
                 .andExpect(status().isOk());
+
+        SecurityReport.defended("Access Control", "admin lendo a conta de arthur", "200 - hasRole('ADMIN') no @PostAuthorize");
     }
 
     @Test
@@ -58,5 +65,7 @@ class AccessControlDefenseTest extends AbstractSecurityIntegrationTest {
                 .andExpect(status().isForbidden());
         mvc.perform(get("/api/v1/admin").with(httpBasic("admin", "password")))
                 .andExpect(status().isOk());
+
+        SecurityReport.defended("Access Control", "USER e anonimo em /api/v1/admin", "401 anonimo / 403 USER / 200 ADMIN");
     }
 }

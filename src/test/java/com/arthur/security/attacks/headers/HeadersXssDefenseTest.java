@@ -1,6 +1,7 @@
 package com.arthur.security.attacks.headers;
 
 import com.arthur.security.attacks.AbstractSecurityIntegrationTest;
+import com.arthur.security.attacks.report.SecurityReport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +26,8 @@ class HeadersXssDefenseTest extends AbstractSecurityIntegrationTest {
                 .andExpect(header().string("X-Content-Type-Options", "nosniff"))
                 .andExpect(header().string("X-Frame-Options", "DENY"))
                 .andExpect(header().string("Content-Security-Policy", containsString("default-src 'none'")));
+
+        SecurityReport.defended("Headers / XSS", "headers de resposta da API", "nosniff + X-Frame-Options DENY + CSP presentes");
     }
 
     @Test
@@ -36,5 +39,7 @@ class HeadersXssDefenseTest extends AbstractSecurityIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("&lt;script&gt;")))
                 .andExpect(content().string(not(containsString("<script>"))));
+
+        SecurityReport.defended("Headers / XSS", "GET /api/v1/echo?message=<script>alert(1)</script>", "refletido como &lt;script&gt; - markup vira texto inerte");
     }
 }

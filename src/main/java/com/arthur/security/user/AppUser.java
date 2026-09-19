@@ -1,5 +1,6 @@
 package com.arthur.security.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,7 +37,14 @@ public class AppUser {
     @Column(unique = true, nullable = false)
     private String username;
 
-    /** Encoded password, prefixed with the encoder id (e.g. {@code {bcrypt}}). */
+    /**
+     * Encoded password, prefixed with the encoder id (e.g. {@code {bcrypt}}).
+     *
+     * <p>{@code @JsonIgnore} is defense in depth against sensitive-data exposure: even if this entity
+     * is ever returned from a controller by mistake, the hash is never serialised into a response.
+     * The primary defense is still to return a DTO - see {@code UserProfile} - rather than the entity.
+     */
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 

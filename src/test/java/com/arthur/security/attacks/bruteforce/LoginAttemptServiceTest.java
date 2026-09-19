@@ -1,5 +1,6 @@
 package com.arthur.security.attacks.bruteforce;
 
+import com.arthur.security.attacks.report.SecurityReport;
 import com.arthur.security.login.LoginAttemptService;
 import com.arthur.security.user.AppUser;
 import com.arthur.security.user.AppUserRepository;
@@ -51,6 +52,8 @@ class LoginAttemptServiceTest {
         }
 
         assertTrue(service.isLocked("arthur"));
+
+        SecurityReport.defended("Brute Force", "limite de 3 falhas atingido", "isLocked=true - lockout acionado");
     }
 
     @Test
@@ -64,6 +67,8 @@ class LoginAttemptServiceTest {
         clock.advance(Duration.ofMinutes(LOCK_MINUTES + 1));
 
         assertFalse(service.isLocked("arthur"));
+
+        SecurityReport.defended("Brute Force", "janela de 15 min expirada", "isLocked=false - bloqueio temporario, nao permanente");
     }
 
     @Test
@@ -75,5 +80,7 @@ class LoginAttemptServiceTest {
         service.loginSucceeded("arthur");
 
         assertFalse(service.isLocked("arthur"));
+
+        SecurityReport.defended("Brute Force", "login bem-sucedido apos 2 falhas", "contador zerado - usuario legitimo nao acumula penalidade");
     }
 }

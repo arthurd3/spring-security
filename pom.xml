@@ -71,6 +71,17 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!--
+            Surefire provides this at runtime but not at compile time. It is declared so the test
+            sources can implement TestExecutionListener: SecurityReportListener uses it to print the
+            security summary table while Surefire is still reading the forked JVM's output.
+            Version is managed by the junit-bom that spring-boot-starter-parent imports.
+        -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

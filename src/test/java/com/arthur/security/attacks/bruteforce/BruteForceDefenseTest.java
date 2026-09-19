@@ -1,6 +1,7 @@
 package com.arthur.security.attacks.bruteforce;
 
 import com.arthur.security.attacks.AbstractSecurityIntegrationTest;
+import com.arthur.security.attacks.report.SecurityReport;
 import com.arthur.security.login.LoginAttemptService;
 import com.arthur.security.user.AppUserRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -43,5 +44,7 @@ class BruteForceDefenseTest extends AbstractSecurityIntegrationTest {
 
         mvc.perform(formLogin().user("arthur").password("password"))
                 .andExpect(unauthenticated());
+
+        SecurityReport.defended("Brute Force", "3 senhas erradas e depois a correta", "conta travada - nem a senha certa autentica");
     }
 }

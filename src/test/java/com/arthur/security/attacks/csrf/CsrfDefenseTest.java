@@ -1,6 +1,7 @@
 package com.arthur.security.attacks.csrf;
 
 import com.arthur.security.attacks.AbstractSecurityIntegrationTest;
+import com.arthur.security.attacks.report.SecurityReport;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -22,6 +23,8 @@ class CsrfDefenseTest extends AbstractSecurityIntegrationTest {
                         .param("username", "arthur")
                         .param("password", "password"))
                 .andExpect(status().isForbidden());
+
+        SecurityReport.defended("CSRF", "POST /login sem token CSRF", "403 - requisicao cross-site barrada");
     }
 
     @Test
@@ -32,6 +35,8 @@ class CsrfDefenseTest extends AbstractSecurityIntegrationTest {
                         .param("password", "password")
                         .with(csrf()))
                 .andExpect(status().is3xxRedirection());
+
+        SecurityReport.defended("CSRF", "POST /login com token valido (uso legitimo)", "302 - formulario proprio continua funcionando");
     }
 
     @Test
@@ -42,6 +47,8 @@ class CsrfDefenseTest extends AbstractSecurityIntegrationTest {
                         .param("password", "password")
                         .with(csrf().useInvalidToken()))
                 .andExpect(status().isForbidden());
+
+        SecurityReport.defended("CSRF", "POST /login com token adulterado", "403 - token nao confere");
     }
 
     @Test
@@ -51,5 +58,7 @@ class CsrfDefenseTest extends AbstractSecurityIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"username\":\"arthur\",\"password\":\"password\"}"))
                 .andExpect(status().isOk());
+
+        SecurityReport.defended("CSRF", "POST /api/auth/login sem token (API stateless)", "200 - isencao correta: auth via header, nao cookie");
     }
 }

@@ -43,7 +43,15 @@ public class ApiSecurityConfig {
                 .securityMatcher("/api/**")
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/register").permitAll()
                         .requestMatchers("/api/v1/welcome").permitAll()
+                        // Public on purpose: an open-redirect demo is only meaningful on a path an
+                        // unauthenticated victim can be lured to. SafeRedirectController validates the target.
+                        .requestMatchers("/api/redirect").permitAll()
+                        // Naturally pre-auth demo endpoints (a greeting, an input validator, a
+                        // password-reset link, a token generator, a login, an OTP check).
+                        .requestMatchers("/api/greet", "/api/validate", "/api/reset-link",
+                                "/api/token", "/api/xlogin", "/api/otp-verify").permitAll()
                         .requestMatchers("/api/v1/user").hasRole("USER")
                         .requestMatchers("/api/v1/admin", "/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/accounts/**").authenticated()

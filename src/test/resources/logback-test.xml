@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Quiets Spring Boot's start-up chatter during `mvn test`, so the SecurityReport lines and the final
+  summary table are readable. This file only exists on the test classpath, so `spring-boot:run` keeps
+  logging normally. Raise a level here (or delete the file) when you need framework logs for debugging.
+-->
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%-5level %logger{20} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="com.zaxxer.hikari" level="WARN"/>
+    <logger name="com.arthur.security" level="WARN"/>
+</configuration>
