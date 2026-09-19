@@ -39,7 +39,8 @@ you can read the attack, run the test, and watch the defense hold.
 | **Authentication** | BCrypt / `DelegatingPasswordEncoder`, JPA-backed `UserDetailsService`, HTTP Basic, form login, **stateless JWT** (OAuth2 Resource Server) |
 | **Authorization** | URL rules (`authorizeHttpRequests`), **method security** (`@PreAuthorize`/`@PostAuthorize`), role vs authority |
 | **Hardening** | CSRF, CORS, session management, session-fixation protection, security headers (HSTS, CSP, `nosniff`) |
-| **Attacks & defenses** | Broken Access Control / IDOR, CSRF, Session Fixation, Brute Force, weak password storage, JWT forgery, XSS |
+| **Injection & parsing** | SQL injection (bind parameters), XXE (`disallow-doctype-decl`), mass assignment (DTO binding) |
+| **Attacks & defenses** | 26 families, each with a working exploit, the fix that stops it, and a live shell-script demo: IDOR, CSRF, session fixation, brute force, weak password storage, JWT forgery, XSS, SQL injection, mass assignment, path traversal, open redirect, data exposure, CORS, user enumeration, XXE, SSRF, command injection, SpEL/SSTI, insecure deserialization, ReDoS, file upload, host header injection, log injection, insecure randomness, XPath injection, rate limiting |
 
 ---
 
@@ -106,21 +107,40 @@ sequenceDiagram
 
 ```
 src/main/java/com/arthur/security
+├── VulnerableExample.java  # marker annotation; SecurityApplication excludes it from scanning
 ├── config/        # AppConfig (PasswordEncoder, Clock), JwtConfig, MethodSecurityConfig,
 │                  # ApiSecurityConfig, WebSecurityConfig, DataSeeder
-├── user/          # AppUser (JPA), AppUserRepository, JpaUserDetailsService
-├── auth/          # AuthController (JWT login), TokenService
-├── account/       # Account (JPA), AccountService (@PostAuthorize ownership → IDOR fix)
+├── user/          # AppUser (JPA, @JsonIgnore password), AppUserRepository,
+│                  # JpaUserDetailsService, UserProfile DTO, UserController (/api/users/me)
+├── auth/          # AuthController (JWT login), TokenService,
+│                  # RegistrationController (record binding -> mass-assignment fix)
+├── account/       # Account (JPA), AccountService (@PostAuthorize ownership -> IDOR fix,
+│                  # derived query -> SQL-injection fix)
 ├── login/         # LoginAttemptService + AuthenticationEventListener (brute-force lockout)
-└── web/           # MainController (role-gated endpoints + safe HTML-escaped echo)
+├── files/         # FileStorageService (normalise + containment -> path-traversal fix)
+├── xml/           # SafeXmlParser (DOCTYPE disallowed -> XXE fix)
+├── net/           # UrlFetchService (scheme + host allowlist + resolved-address -> SSRF fix)
+└── web/           # MainController (role-gated endpoints + HTML-escaped echo),
+                   # SafeRedirectController (allowlisted target -> open-redirect fix)
 
 src/test/java/com/arthur/security/attacks
-├── accesscontrol/ # IDOR + vertical escalation
-├── csrf/          # CSRF token enforcement
-├── sessionfixation/
-├── bruteforce/    # lockout, password storage, unlimited-guess demo
-├── jwt/           # alg=none, wrong key, expired, weak-secret dictionary
-└── headers/       # security headers + reflected XSS
+├── report/            # SecurityReport + listener: the terminal output and summary table
+├── VulnerableCodeIsolationTest.java   # proves no /vulnerable/** route reaches the real app
+├── accesscontrol/     # IDOR + vertical escalation
+├── csrf/              # CSRF token enforcement
+├── sessionfixation/   # session id rotation at login
+├── bruteforce/        # lockout, password storage, unlimited-guess demo
+├── jwt/               # alg=none, wrong key, expired, weak-secret dictionary
+├── headers/           # security headers + reflected XSS
+├── sqli/              # tautology + comment payloads vs. bind parameters
+├── massassignment/    # over-posting "roles":"ADMIN" vs. record binding
+├── pathtraversal/     # ../ escape vs. normalise + containment
+├── openredirect/      # attacker URL in Location vs. allowlist
+├── dataexposure/      # entity serialisation leaking the hash vs. DTO + @JsonIgnore
+├── cors/              # reflected origin + credentials vs. explicit allowlist
+├── enumeration/       # distinguishable login failures vs. uniform response
+├── xxe/               # external entity file read vs. disallow-doctype-decl
+└── ssrf/              # loopback / file:// fetch vs. allowlist + address check
 ```
 
 ---
@@ -196,6 +216,25 @@ Each family has a `...VulnerabilityTest` (proves the flaw) and a `...DefenseTest
 | 5 | **Weak Password Storage** | A02:2021 · CWE-256/916 | BCrypt via `DelegatingPasswordEncoder` (salted, adaptive) | `bruteforce/PasswordStorageTest` |
 | 6 | **JWT forgery** (`alg=none`, wrong key, expired, weak secret) | A02/A07 · CWE-345/347 | OAuth2 Resource Server + `NimbusJwtDecoder` (verifies signature + expiry) | `jwt/*` |
 | 7 | **XSS + missing headers** | A03:2021 · CWE-79 | `HtmlUtils.htmlEscape` + CSP / `nosniff` | `headers/*` |
+| 8 | **SQL Injection** | A03:2021 · CWE-89 | Bind parameters (Spring Data derived query / `PreparedStatement`) | `sqli/*` |
+| 9 | **Mass Assignment** | A08:2021 · CWE-915 | Bind to a narrow DTO record; server assigns the role | `massassignment/*` |
+| 10 | **Path Traversal** | A01:2021 · CWE-22 | `normalize()` + `startsWith(base)` containment check | `pathtraversal/*` |
+| 11 | **Open Redirect** | CWE-601 | Relative-only, or host allowlist on a parsed `URI` | `openredirect/*` |
+| 12 | **Sensitive Data Exposure** | A02:2021 · CWE-200 | `UserProfile` DTO + `@JsonIgnore` on the hash | `dataexposure/*` |
+| 13 | **CORS misconfiguration** | A05:2021 · CWE-942 | Explicit origin allowlist, never a reflected origin | `cors/*` |
+| 14 | **Username Enumeration** | A07:2021 · CWE-204 | Identical status + body for both failure modes | `enumeration/*` |
+| 15 | **XXE** | A05:2021 · CWE-611 | `disallow-doctype-decl` + external entities off | `xxe/*` |
+| 16 | **SSRF** | A10:2021 · CWE-918 | Scheme + host allowlist, resolved-address check, no redirects | `ssrf/*` |
+| 17 | **OS Command Injection** | A03:2021 · CWE-78 | Host allowlist; never build a shell string from input | `commandinjection/*` |
+| 18 | **SpEL / Template Injection (SSTI)** | A03:2021 · CWE-917 | Never evaluate user input as an expression | `spel/*` |
+| 19 | **Insecure Deserialization** | A08:2021 · CWE-502 | Parse JSON into a fixed type; no native `readObject` | `deserialization/*` |
+| 20 | **ReDoS** | CWE-1333 | Length cap + linear check (no catastrophic backtracking) | `redos/*` |
+| 21 | **Unrestricted File Upload** | A05:2021 · CWE-434 | Extension allowlist + server-generated name + size cap | `fileupload/*` |
+| 22 | **Host Header Injection** | CWE-644 | Build links from a configured base URL, not `Host` | `hostheader/*` |
+| 23 | **Log Injection (CRLF)** | A09:2021 · CWE-117 | Strip CR/LF/controls before logging | `loginjection/*` |
+| 24 | **Insecure Randomness** | A02:2021 · CWE-330 | `SecureRandom` + 256-bit tokens, never `java.util.Random` | `randomness/*` |
+| 25 | **XPath Injection** | A03:2021 · CWE-643 | Bound XPath variables (`XPathVariableResolver`) | `xpath/*` |
+| 26 | **Missing Rate Limiting** | A04:2021 · CWE-770 | Per-client throttling → HTTP 429 | `ratelimit/*` |
 
 ### How each demo works
 
@@ -214,6 +253,26 @@ flowchart LR
 ```
 
 Deep dives: **[guides/attacks.md](guides/attacks.md)** · **[guides/best-practices.md](guides/best-practices.md)**
+
+### ▶️ Run the attacks yourself (dissected in depth, with real cases)
+
+Each attack is a **self-contained folder** under `scripts/attacks/<nn-name>/` with four artifacts: a
+multi-variant, runnable `.java` (the **vulnerable** and **safe** code side by side, several real
+techniques each), a `DEEP-DIVE.md` (layperson→advanced, with **real incidents/CVEs — classic and
+2025–2026 — linked**, and reimplemented snippets credited to WebGoat / java-sec-code /
+PayloadsAllTheThings / ysoserial), a `payloads.txt` cheatsheet, and the `.sh` that explains it in 3
+levels, **shows the code**, and **runs it**. No server required.
+
+```bash
+scripts/attacks/08-sql-injection/08-sql-injection.sh          # explains + shows + runs (5 SQLi techniques)
+less scripts/attacks/16-ssrf/DEEP-DIVE.md                      # Capital One, IMDS, DNS rebinding, CVE-2026-…
+scripts/run-all.sh                                            # all 26 in sequence
+java scripts/attacks/06-jwt/JwtDemo.java                       # just the code (alg=none, weak secret, alg confusion)
+```
+
+Real patterns are **reimplemented and cited**, never weaponized (no third-party RCE / live gadget
+chains). Most demos are pure JDK; a few use the project's libs via `scripts/lib/classpath.txt`. See
+**[scripts/README.md](scripts/README.md)**.
 
 ---
 
@@ -287,41 +346,127 @@ $ curl -u arthur:password ".../api/v1/echo?message=%3Cscript%3Ealert(1)%3C%2Fscr
 You said: &lt;script&gt;alert(1)&lt;/script&gt;   # payload neutralised ✔
 ```
 
+**Sensitive data & mass assignment** — the hash never leaves the server, and an injected role is dropped:
+
+```console
+$ curl -H "Authorization: Bearer $TOKEN" .../api/users/me
+{"username":"arthur","roles":["USER"]}          # no password, no internal id ✔
+
+$ curl -X POST .../api/auth/register -H 'Content-Type: application/json' \
+    -d '{"username":"mallory","password":"hunter2-long","roles":"ADMIN"}'
+{"username":"mallory","roles":["USER"]}         # injected "roles":"ADMIN" ignored ✔
+```
+
+**Injection, traversal, redirect & SSRF** — each payload is refused by the real endpoint:
+
+```console
+$ curl -H "Authorization: Bearer $ADMIN_TOKEN" ".../api/accounts/search?owner=arthur'%20OR%20'1'='1"
+[]                                                      # parameterized, nothing leaks ✔
+
+$ curl -H "Authorization: Bearer $TOKEN" ".../api/files?name=readme.txt"       -> 200 ✔
+$ curl -H "Authorization: Bearer $TOKEN" ".../api/files?name=../../etc/passwd" -> 400 ✔
+
+$ curl ".../api/redirect?to=/dashboard"                 -> 302 ✔
+$ curl ".../api/redirect?to=https://evil.example/login" -> 400 ✔
+
+$ curl -H 'Content-Type: application/xml' -d '<note>hello</note>' .../api/xml/parse   -> 200 ✔
+$ curl -H 'Content-Type: application/xml' \
+    -d '<!DOCTYPE n [<!ENTITY x SYSTEM "file:///etc/passwd">]><note>&x;</note>' \
+    .../api/xml/parse                                                                 -> 400 ✔
+
+$ curl -H "Authorization: Bearer $ADMIN_TOKEN" ".../api/fetch?url=http://127.0.0.1:9999/" -> 400 ✔
+$ curl -H "Authorization: Bearer $ADMIN_TOKEN" ".../api/fetch?url=file:///etc/passwd"     -> 400 ✔
+```
+
 ---
 
 ## ✅ Test suite
 
-`./mvnw test` — **30 tests, all passing**:
+`./mvnw test` — **100 tests, all passing** across 26 attack/defense families.
+
+Every demo reports itself as it runs, so the terminal shows the attack and its outcome rather than
+Spring's start-up chatter (quieted by `src/test/resources/logback-test.xml`):
 
 ```console
-Running ...attacks.accesscontrol.AccessControlDefenseTest        Tests run: 4  ✔
-Running ...attacks.accesscontrol.AccessControlVulnerabilityTest  Tests run: 1  ✔
-Running ...attacks.bruteforce.BruteForceDefenseTest             Tests run: 1  ✔
-Running ...attacks.bruteforce.BruteForceVulnerabilityTest       Tests run: 1  ✔
-Running ...attacks.bruteforce.LoginAttemptServiceTest           Tests run: 3  ✔
-Running ...attacks.bruteforce.PasswordStorageTest              Tests run: 2  ✔
-Running ...attacks.csrf.CsrfDefenseTest                        Tests run: 4  ✔
-Running ...attacks.csrf.CsrfVulnerabilityTest                  Tests run: 1  ✔
-Running ...attacks.headers.HeadersXssDefenseTest              Tests run: 2  ✔
-Running ...attacks.headers.HeadersXssVulnerabilityTest        Tests run: 1  ✔
-Running ...attacks.jwt.JwtDefenseTest                         Tests run: 4  ✔
-Running ...attacks.jwt.JwtVulnerabilityTest                   Tests run: 2  ✔
-Running ...attacks.sessionfixation.SessionFixationDefenseTest       Tests run: 1  ✔
-Running ...attacks.sessionfixation.SessionFixationVulnerabilityTest Tests run: 2  ✔
-Running ...SecurityApplicationTests                           Tests run: 1  ✔
-
-Tests run: 30, Failures: 0, Errors: 0, Skipped: 0
-BUILD SUCCESS
+  XX  VULNERAVEL SQL Injection        alice' OR '1'='1           -> 3 contas vazadas (esperado: 1)
+  OK  DEFENDIDO  SQL Injection        alice' OR '1'='1           -> 0 resultados - valor tratado como dado
+  XX  VULNERAVEL Path Traversal       GET ?name=../secrets...    -> leu arquivo fora do diretorio publico
+  OK  DEFENDIDO  Path Traversal       GET ?name=../secrets...    -> 400 - caminho normalizado sai da base
+  XX  VULNERAVEL SSRF                 GET http://127.0.0.1:...   -> credencial interna exfiltrada
+  OK  DEFENDIDO  SSRF                 GET http://127.0.0.1:...   -> 400 - host fora da allowlist
 ```
+
+and the run ends with a grouped summary:
+
+```console
+  RELATORIO DE SEGURANCA  -  ataques demonstrados vs. defesas
+========================================================================
+  CATEGORIA                            VULNERAVEL      DEFENDIDO
+  --------------------------------------------------------------------
+  Access Control                                1              4
+  Brute Force                                   1              4
+  Armazenamento de Senha                        1              1
+  CSRF                                          1              4
+  Headers / XSS                                 1              2
+  JWT                                           2              4
+  Session Fixation                              1              2
+  SQL Injection                                 2              4
+  Mass Assignment                               1              2
+  Open Redirect                                 2              3
+  Path Traversal                                1              4
+  CORS                                          1              3
+  Exposicao de Dados                            1              3
+  Enumeracao de Usuarios                        1              2
+  SSRF                                          2              4
+  XXE                                           2              3
+  Command Injection                             1              3
+  Desserializacao Insegura                      1              2
+  Upload sem Restricao                          1              2
+  Host Header Injection                         1              1
+  Log Injection (CRLF)                          1              1
+  Aleatoriedade Insegura                        1              1
+  Rate Limiting Ausente                         1              1
+  ReDoS                                         1              2
+  SpEL / SSTI                                   1              2
+  XPath Injection                               1              2
+  Isolamento do Codigo Inseguro                 0              2
+  --------------------------------------------------------------------
+  TOTAL (27 categorias)                        31             68
+========================================================================
+  VULNERAVEL = ataque comprovadamente bem-sucedido contra o codigo inseguro de
+               exemplo, isolado em src/test, fora do classpath de producao.
+  DEFENDIDO  = o mesmo ataque barrado pela aplicacao real.
+```
+
+`XX VULNERAVEL` lines are not failures — they are assertions that the insecure example really is
+exploitable. A green build means every attack landed on the vulnerable code **and** was blocked by the
+real application. Set `NO_COLOR=1` to drop the ANSI colouring.
+
+The report is produced by `attacks/report/SecurityReport.java`; the table is printed by
+`SecurityReportListener`, registered through `META-INF/services/org.junit.platform.launcher.TestExecutionListener`.
+
+### Keeping the insecure examples out of the application
+
+Every `Vulnerable*` class must be annotated `@Controller` for `MockMvcBuilders.standaloneSetup(...)` to
+register its handler methods — which also makes it a component-scan candidate, since it lives under the
+scanned `com.arthur.security` package and `src/test` is on the classpath while tests run. Left alone,
+those insecure endpoints join the very application the defense tests are supposed to probe.
+
+They are therefore annotated `@VulnerableExample`, which `SecurityApplication` excludes from component
+scanning, and `VulnerableCodeIsolationTest` fails the build if a `/vulnerable/**` route or a
+`@VulnerableExample` bean ever appears in the context. (They never ship either way: `src/test` is not
+part of the packaged jar.)
 
 Representative test names read like a checklist of what's proven:
 
 - `IDOR blocked — a user cannot read another user's account`
-- `session-based POST without a CSRF token is rejected` / `stateless API is correctly exempt from CSRF`
-- `changeSessionId rotates the session id at login`
-- `account locks after repeated failures — the correct password then fails too`
-- `an alg=none forged token is rejected` · `a token signed with the wrong key is rejected` · `an expired token is rejected`
-- `a weak HMAC secret is recovered by an offline dictionary attack`
+- `a tautology payload dumps every row in the table` / `bind parameters make the tautology payload match nothing`
+- `an extra roles field in the body grants the attacker ADMIN` / `the injected roles field is ignored`
+- `../ escapes the public directory and reads a secret file` / `nested and absolute traversal variants are rejected too`
+- `the response tells the attacker which usernames exist` / `unknown user and wrong password give byte-identical responses`
+- `an external entity reads a local file into the parsed document` / `the DOCTYPE is refused`
+- `the server reaches an internal service the attacker cannot route to` / `an allowlisted host that resolves to loopback is still refused`
+- `an alg=none forged token is rejected` · `a weak HMAC secret is recovered by an offline dictionary attack`
 
 ---
 
