@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+HERE="$(cd "$(dirname "$0")" && pwd)"; source "$HERE/../../lib/common.sh"; ensure_java
+title "CONCEITO: MFA com TOTP (RFC 6238)"
+section 1 "O que e (para leigos)"
+para "O segundo fator (2FA/MFA) e um codigo de 6 digitos que muda a cada 30 segundos, gerado pelo app no seu celular e conferido pelo servidor. Mesmo que roubem a sua senha, sem o codigo do momento nao entram."
+section 2 "Conceitos tecnicos"
+term "HOTP (RFC 4226)" "Codigo derivado de HMAC-SHA1(segredo, contador) com truncamento dinamico."
+term "TOTP (RFC 6238)" "HOTP onde o contador = tempo/30s; o codigo expira a cada janela."
+term "Janela de drift" "Aceitar +/-1 janela tolera relogios levemente dessincronizados."
+term "Por que derruba stuffing" "A senha vazada sozinha nao autentica; falta o fator do dispositivo (#04)."
+section 3 "O codigo (roda offline)"; show_code "$HERE/TotpMfa.java"
+section 4 "Executando"; run_demo "$HERE/TotpMfa.java"
+section 5 "Conhecimentos conectados"
+ref "Leva a: #04 brute-force (MFA neutraliza stuffing/spraying) e #06 jwt (mesmo HMAC)"
+ref "Pratique a seguir: scripts/concepts/hibp-k-anonymity e scripts/concepts/password-entropy"
+section 6 "Referencias"
+ref "RFC 6238 (TOTP): https://datatracker.ietf.org/doc/html/rfc6238"
+ref "RFC 4226 (HOTP): https://datatracker.ietf.org/doc/html/rfc4226"
+ref "OWASP MFA Cheat Sheet: https://cheatsheetseries.owasp.org/cheatsheets/Multifactor_Authentication_Cheat_Sheet.html"
+footer
